@@ -57,7 +57,7 @@ Excluded: autonomous Linear ticket agent (separate package if ever shipped).
 - `system-prompt-doing-tasks-focus` — complexity gate (one-liner vs recon)
 - `system-prompt-no-premature-abstractions` + `no-unnecessary-error-handling` — codebase-helper-first wedge
 - `agent-prompt-verification-specialist` — Codex pointer (gate on Codex tier install)
-- `system-prompt-subagent-delegation-examples` — verify which of two near-duplicate files CC actually injects first
+- `system-prompt-subagent-prompt-writing-examples` + `system-prompt-writing-subagent-prompts` — both confirmed injected in standard CLI (verified 2026-05-12 by inspecting active session's system prompt; example blocks use `Agent({description, prompt, subagent_type})` shape matching `subagent-prompt-writing-examples.md`, plus the "Writing the prompt" prose from `writing-subagent-prompts.md`). The sibling `subagent-delegation-examples.md` uses the `${AGENT_TOOL_NAME}({name: ...})` shape with deferred-notification pattern — that's the cloud Managed-Agents mode, NOT injected in the standard CLI context. Patch the two CLI-injected files; the third is dead code for standard CLI users.
 - `tool-description-todowrite` — soften proactivity (more opinionated; assess after teammate feedback)
 
 ### Patch system properties
@@ -203,9 +203,12 @@ JM's `~/.claude/CLAUDE.md` is ~75% transferable principles + ~25% personal wirin
 
 ## Open questions for future iteration
 
-- Verify which of two near-duplicate subagent-prompt files CC actually injects (`subagent-delegation-examples` vs `subagent-prompt-writing-examples`) — read-only spike at jm-workflow cwd
 - Future addendum patches for shell-compat / command-prefix-aliases learnings
 - Future: ship a `jm-linear-agent` companion package?
+
+### Resolved during Phase 1
+
+- **Which subagent-prompt files does CC actually inject? (2026-05-12)** — Verified by inspecting the active session's system prompt at jm-workflow cwd. CC injects **both** `system-prompt-subagent-prompt-writing-examples.md` (the `<example>` blocks using `Agent({description, prompt, subagent_type})`) and `system-prompt-writing-subagent-prompts.md` (the prose "Writing the prompt" section with the smart-colleague metaphor). The sibling `system-prompt-subagent-delegation-examples.md` uses the `${AGENT_TOOL_NAME}({name: ...})` shape with deferred-notification pattern — that's the cloud Managed-Agents mode, NOT injected for standard CLI users. Implication for the patch catalog: target the two CLI-injected files; treat `subagent-delegation-examples.md` as out-of-scope for the standard-CLI tier.
 
 ## Resolved design decisions
 
