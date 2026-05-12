@@ -1,0 +1,33 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local install state (teammate-specific)
+.jm-workflow-install.conf
+install.conf
+
+# Scratch
+/tmp/
+/scratch/
+*.bak
+*.bak-*
+
+# Personal-layer instance data (only schemas ship)
+personal-template/dot-me/identity.yaml
+personal-template/dot-me/preferences.yaml
+personal-template/dot-me/voice.md
+personal-template/dot-me/memory/MEMORY.md
+personal-template/dot-me/memory/*.md
+!personal-template/dot-me/memory/.gitkeep
+!personal-template/dot-me/**/*.tmpl
+
+# Build artifacts
+node_modules/
+__pycache__/
+*.pyc

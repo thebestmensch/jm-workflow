@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/marketplace.json",
+  "name": "jm-workflow",
+  "version": "0.1.0",
+  "description": "JM's Claude Code workflow — pre-built dispatch rules, project-aware reviewers, codified discipline patches.",
+  "owner": {
+    "name": "James Mensch",
+    "url": "https://github.com/thebestmensch"
+  },
+  "plugins": [
+    {
+      "name": "jm-workflow",
+      "source": "./plugin",
+      "description": "Commands, agents, hooks, rules, and tweakcc patches that codify JM's CC workflow discipline."
+    }
+  ]
+}
