@@ -130,6 +130,10 @@ Path rewrite applied two places:
 
 **Don't ship:** `workspace-layout.md` (jm/oom tmux session names)
 
+**Loading mechanism:** CC's plugin loader does NOT auto-inject markdown from a `rules/` directory the way it does for `skills/` and `agents/`. To make rules active default behavior, jm-workflow ships a `SessionStart` hook (`plugin/hooks/inject-rules.sh`) declared in `plugin/.claude-plugin/plugin.json` that reads every `${CLAUDE_PLUGIN_ROOT}/rules/*.md` at session start and emits the concatenated content on stdout, which CC captures as additional system context. Pattern adapted from the `caveman` plugin's SessionStart activation hook. Discovered during Phase 2 implementation after Codex flagged that `plugin/rules/` is not a recognized plugin component path; verified against `https://code.claude.com/docs/en/plugins` (component table lists `.claude-plugin/`, `skills/`, `commands/`, `agents/`, `hooks/`, `.mcp.json`, `.lsp.json`, `monitors/`, `bin/`, `settings.json` — no `rules/`).
+
+**Manifest path correction:** The initial Phase 1 skeleton placed the plugin manifest at `plugin/plugin.json`, but per the same docs the manifest must live at `plugin/.claude-plugin/plugin.json` (verified against the layouts of all installed plugins under `~/.claude/plugins/cache/`: caveman, code-simplifier, codex, oneonme-engineering). Phase 2 corrects this — without the move, neither the SessionStart hook nor any other plugin component is loaded.
+
 ### Skills — none
 
 - ~~`story` skill (Storybloq)~~ — **dropped** 2026-05-14: not used in personal workflow, no value to redistribute. Plugin ships no skills layer.
