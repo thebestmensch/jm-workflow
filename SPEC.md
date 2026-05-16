@@ -7,7 +7,7 @@ Durable artifact capturing audit findings + decisions from the planning conversa
 
 Ship a redistributable Claude Code package that gives less-advanced CC users as close to JM's "ahead of the curve" workflow as possible, with an update mechanism for ongoing iteration.
 
-**Scope:** Pure CC-workflow. No terminal stack (no Ghostty, tmux, Visor HUD, starship, chezmoi).
+**Scope:** Pure CC-workflow. No terminal stack (no Ghostty, tmux, Visor HUD, starship).
 
 ## Audience
 
@@ -120,7 +120,7 @@ Path rewrite applied two places:
 
 **Templated for redistribution (7):** `dispatch-tracker.sh` (stripped JM-103 tickets-infra block + OneOnMe-specific lensed-reviewer matchers — kept generic ones: visual-qa, code-review, brainstorm, frontend-design, devils-advocate, sentry-discipline, codex-rescue), `notify.sh` (placeholder sound path), `parallel-cc-worktree-gate.sh` (dropped JM memory file ref), `codex-pre-commit-gate.sh` (dropped JM memory ref), `gh-actions-yaml-lint.sh` (dropped Slack-notifier comment), `backend-verification-gate.sh` (`ssh tower` → `ssh <host>` example), `track-verify-commands.sh` (`ssh tower` → `ssh ` regex token).
 
-**Universal-with-deps** (graceful no-op when tool absent): `chezmoi-*-guard` (3 hooks; `command -v chezmoi || exit 0`), `codex-*-{cap,gate,tracker}` (4 hooks), `tweakcc-drift-warn`, `gh-actions-yaml-lint`, `agent-eligible-self-mod-check` (matches `mcp__linear__save_issue` only).
+**Universal-with-deps** (graceful no-op when tool absent): `codex-*-{cap,gate,tracker}` (4 hooks), `tweakcc-drift-warn`, `gh-actions-yaml-lint`, `agent-eligible-self-mod-check` (matches `mcp__linear__save_issue` only).
 
 **Wired but not in JM's settings.json (4 added):** `commit-scope-check.sh` (PreToolUse Bash), `commit-gate-cleanup.sh` (PostToolUse Bash), `devils-advocate-plan-gate.sh` (PreToolUse ExitPlanMode), `devils-advocate-plan-cleanup.sh` (PostToolUse ExitPlanMode). Useful patterns for adopters.
 

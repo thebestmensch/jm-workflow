@@ -178,7 +178,7 @@ Grouped by what they protect:
 
 **UI / verification gates** (fire at `Stop`) — `visual-qa-stop-gate`, `interaction-qa-stop-gate`, `mobile-pattern-stop-gate`, `backend-verification-gate`, `auto-simplify-stop`.
 
-**Tooling drift & chezmoi safety** — `tweakcc-drift-warn`, `chezmoi-force-guard`, `chezmoi-source-drift-guard`, `chezmoi-target-edit-warn`, `main-checkout-drift-guard`.
+**Tooling drift** — `tweakcc-drift-warn`, `main-checkout-drift-guard`.
 
 **Context & cache health** — `tmux-ctx-mark`, `cache-cold-warn`, `cache-warmth-tracker`, `compact-nudge`, `precompact-clear-stop-gate-dedupe`, `session-init`, `orphan-mcp-cleanup`, `parallel-cc-cwd-warn`.
 
