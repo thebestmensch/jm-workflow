@@ -89,7 +89,7 @@ This is the multi-perspective extension of `/devils-advocate` (which is one voic
 
 After the 5 agents return, render this table and stop:
 
-```
+```markdown
 ## Lateral Debate
 
 **Stuck on:** [one-line restatement]

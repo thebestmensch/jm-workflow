@@ -60,7 +60,13 @@ case "$hook_event" in
     counter_dir="$gate_dir/edit_counts"
     mkdir -p "$counter_dir"
     # Hash the path so filenames stay short and shell-safe
-    hash=$(printf "%s" "$file_path" | shasum | awk '{print $1}' | cut -c1-12)
+    if command -v shasum >/dev/null 2>&1; then
+      hash=$(printf "%s" "$file_path" | shasum | awk '{print $1}' | cut -c1-12)
+    elif command -v sha1sum >/dev/null 2>&1; then
+      hash=$(printf "%s" "$file_path" | sha1sum | awk '{print $1}' | cut -c1-12)
+    else
+      hash=$(printf "%s" "$file_path" | openssl sha1 | awk '{print $NF}' | cut -c1-12)
+    fi
     counter_file="$counter_dir/$hash"
 
     if [ -f "$counter_file" ]; then
@@ -74,14 +80,12 @@ case "$hook_event" in
     # Nudge at exactly 4 edits to the same file (not 5+ to avoid repeats)
     if [ "$count" -eq 4 ]; then
       base=$(basename "$file_path")
-      cat <<EOF
-{
-  "hookSpecificOutput": {
-    "hookEventName": "PostToolUse",
-    "additionalContext": "Same file edited 4 times this session: $base. If you keep retrying the same fix shape, consider /lateral — 5 reframing personas in parallel — to break out of the local-minimum approach."
-  }
-}
-EOF
+      jq -nc --arg base "$base" '{
+        hookSpecificOutput: {
+          hookEventName: "PostToolUse",
+          additionalContext: ("Same file edited 4 times this session: \($base). If you keep retrying the same fix shape, consider /lateral — 5 reframing personas in parallel — to break out of the local-minimum approach.")
+        }
+      }'
     fi
     exit 0
     ;;

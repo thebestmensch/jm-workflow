@@ -44,7 +44,7 @@ Devil's advocate is one perspective. `/lateral` fans out **five** lateral-thinki
 
 **Auto-trigger surfaces (hook-driven, no manual invocation needed):**
 - `lateral-stuck-detector.sh` fires on `UserPromptSubmit` when the prompt contains frustration / stuck signals ("still failing", "tried 3 times", "i'm stuck", "keeps failing", "this isn't working", "i give up", "nothing works"). Injects a context note nudging `/lateral`.
-- Same hook fires on `PostToolUse(Edit|Write)` at the 4th edit to the same file in a session — signal that you're cycling on the same fix shape and a reframe may unstick faster than another retry.
+- Same hook fires on `PostToolUse(Edit|Write|NotebookEdit)` at the 4th edit to the same file in a session — signal that you're cycling on the same fix shape and a reframe may unstick faster than another retry.
 
 **Cap:** one nudge per session (UserPromptSubmit path) + one nudge at 4th same-file edit. Once `/lateral` runs, the dispatch marker (`lateral_dispatched`) silences both surfaces for the rest of the session.
 
