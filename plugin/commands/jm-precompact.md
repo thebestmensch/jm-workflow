@@ -54,7 +54,7 @@ Present in chat:
 
 End the report with:
 
-```
+```text
 Ready to compact. Run `/compact` when you want to continue with a fresh window.
 ```
 
