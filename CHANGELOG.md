@@ -13,7 +13,7 @@ All notable changes to `jm-workflow` documented here. Format: [Keep a Changelog]
 ### Pending (per SPEC.md migration roadmap)
 - Canonical-plus-overlay drift fix in JM's own repos
 - Plugin contents migration (rules → agents → commands → hooks → patches → skills → templates)
-- Install layer (install.sh, doctor.sh, tweakcc-install/reapply, shell-snippets)
+- Install layer (install.sh, doctor.sh, shell-snippets)
 - Personal-layer templates (dot-me scaffolds)
 
 ## [0.1.0] — TBD

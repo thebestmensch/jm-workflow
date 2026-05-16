@@ -85,7 +85,7 @@ cd jm-workflow
 ./install/install.sh
 ```
 
-`install.sh` walks you through five tiers — the plugin is required, everything else is opt-in.
+`install.sh` walks you through three tiers — the plugin is required, Codex review and MCP secret wrappers are opt-in.
 
 ## Update
 
@@ -93,8 +93,7 @@ cd jm-workflow
 # Plugin updates (commands, agents, hooks, rules)
 claude plugin update jm-workflow
 
-# Host-side updates (tweakcc patches, install scripts, shell snippets)
-cd jm-workflow && git pull && ./install/install.sh --update
+cd jm-workflow && git pull   # for repo-level updates (templates, docs)
 ```
 
 ---
@@ -178,7 +177,7 @@ Grouped by what they protect:
 
 **UI / verification gates** (fire at `Stop`) — `visual-qa-stop-gate`, `interaction-qa-stop-gate`, `mobile-pattern-stop-gate`, `backend-verification-gate`, `auto-simplify-stop`.
 
-**Tooling drift** — `tweakcc-drift-warn`, `main-checkout-drift-guard`.
+**Tooling drift** — `main-checkout-drift-guard`.
 
 **Context & cache health** — `tmux-ctx-mark`, `cache-cold-warn`, `cache-warmth-tracker`, `compact-nudge`, `precompact-clear-stop-gate-dedupe`, `session-init`, `orphan-mcp-cleanup`, `parallel-cc-cwd-warn`.
 
@@ -187,14 +186,6 @@ Grouped by what they protect:
 **Trackers** (record state for other hooks/rules to read) — `dispatch-tracker`, `sdd-tracker`, `sdd-review-gate`, `template-edit-counter`, `backend-edit-counter`, `track-edited-files`, `track-verify-commands`, `devils-advocate-plan-cleanup`, `commit-gate-cleanup`, `agent-eligible-self-mod-check`, `notify`.
 
 49 scripts total. The wiring (matcher patterns, timeouts, ordering) lives in `plugin/hooks/hooks.json`.
-
----
-
-## tweakcc prompt patches
-
-Eleven length-preserving patches applied to CC's native system prompt — installed once by `install/tweakcc-install.sh`, re-applied by `install/tweakcc-reapply.sh` after a CC upgrade. They tighten communication style, kill the stock "be concise" hedge, strengthen "investigate before acting," and tune Plan mode Phase 4 output.
-
-See SPEC.md § "Active tweakcc patches" for the full list and what each one changes.
 
 ---
 
