@@ -18,7 +18,7 @@ Engineers comfortable with Claude Code but not on the cutting edge of plugin/hoo
 | Layer | Distribution | Updates |
 |---|---|---|
 | **1. Plugin (model-side)** | `claude plugin install` from marketplace | Automatic via `claude plugin update` |
-| **2. Install (host-side)** | `bootstrap.sh` from git repo | `git pull` + idempotent `install.sh --update` |
+| **2. Install (host-side)** | `git pull` from repo (v0.1.0: docs/templates only; install.sh deferred) | `git pull` |
 | **3. Personal (templates)** | Empty scaffolds — teammate fills in | Never auto-updates |
 
 ## Tier structure (install-time prompts)
@@ -117,30 +117,15 @@ Project-overlay scaffolds in `plugin/templates/`, with `<PROJECT>`/`<USER>` plac
 
 ## Install layer (Layer 2)
 
-### `install/install.sh`
+v0.1.0 ships **only** the Claude Code plugin (Layer 1) via `claude plugin install`.
 
-Interactive tier selection (default), `--all` / `--tier=X` / `--update` / `--dry-run` flags.
+The host-side install layer is deferred to a later release. Planned scope when it lands:
+- `install.sh` — interactive tier selection covering Codex CLI + auth (Tier 2) and the `op`/MCP shell wrappers (Tier 3).
+- `doctor.sh` — health check for plugin installation, Claude Max subscription (`.credentials.json` subscriptionType=max — never `ANTHROPIC_API_KEY`), required brew deps (jq, gh, ripgrep), and optional Codex/op auth state.
+- `shell-snippets/claude-codex-wrappers.zsh` — opt-in `claude()` / `codex()` shell functions for cwd-gated MCP env injection so shipped MCPs don't lose secrets when the user `cd`s away from the project root.
+- `codex/config.toml.tmpl` — Codex config template with `ignore_default_excludes = true` for MCP env interpolation.
 
-Saves tier selections to `~/.jm-workflow/install.conf` for idempotent updates.
-
-### `install/doctor.sh`
-
-Post-install + on-demand health check. Verifies:
-- Plugin installed (`claude plugin list` includes `jm-workflow`)
-- Claude Max subscription (`.credentials.json` has `subscriptionType=max`) — NEVER `ANTHROPIC_API_KEY`
-- Required brew deps present (jq, gh, ripgrep)
-- Codex OAuth done (`~/.codex/auth.json` exists, if Tier 2 installed)
-- `op` authed for required vaults (if Tier 3 installed)
-
-### `install/shell-snippets/claude-codex-wrappers.zsh`
-
-Opt-in source line for `~/.zshrc`:
-- `claude()` — cwd-gated MCP env injection (without this, shipped MCPs lose secrets when teammate `cd`s away from project root)
-- `codex()` — same shape for Codex CLI
-
-### `install/codex/config.toml.tmpl`
-
-Codex config template with the easy-to-miss `ignore_default_excludes = true` (required for MCP env interpolation per JM's setup).
+Until then, adopters set up Codex CLI / `op` / shell wrappers manually if they want the opt-in tiers. See **Requirements** in the README for the assumed external tooling.
 
 ## Personal layer (Layer 3, templates only)
 
@@ -203,7 +188,7 @@ JM's `~/.claude/CLAUDE.md` is ~75% transferable principles + ~25% personal wirin
 ```toml
 # ~/.jm-workflow/config.toml
 [branches]
-human_prefix = "jm/"        # set by install.sh, override anytime
+human_prefix = "jm/"        # set manually (install.sh deferred), override anytime
 agent_prefix = "agent/"     # do not change unless you also retune CI
 
 [defaults]
@@ -216,7 +201,7 @@ default_pr_base = "staging" # oneonme convention; "main" for solo repos
 
 1. **Drift fix** in JM's own repos: drift-test script for `oom-linear-work-ticket` ↔ `jm-linear-work-ticket` (see Phase 1 recon below — chose drift-test over canonical-plus-overlay)
 2. **Plugin contents migration** (rules → agents → commands → hooks → skills → templates)
-3. **Install layer** (install.sh + doctor.sh + shell-snippets)
+3. **Install layer** (install.sh + doctor.sh + shell-snippets) — DEFERRED to post-v0.1.0
 4. **Personal templates** (`dot-me/` schemas)
 5. **README**
 6. **Initial v0.1.0 tag + push to marketplace**
