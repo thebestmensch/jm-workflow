@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# jm-workflow — SessionStart hook: inject dispatch rules as additional context.
+# claude-code-multimodel-workflow — SessionStart hook: inject dispatch rules as additional context.
 #
 # Claude Code's plugin loader does not auto-inject markdown from a `rules/`
 # directory the way it does for `skills/` or `agents/`. To make these rules
@@ -27,7 +27,7 @@ if (( ${#files[@]} == 0 )); then
   exit 0
 fi
 
-printf '# jm-workflow dispatch rules\n\n'
+printf '# claude-code-multimodel-workflow dispatch rules\n\n'
 printf 'These rules govern how Claude dispatches subagents, code reviewers, '
 printf 'visual QA, and Codex for cross-provider review in this session. '
 printf 'Treat them as standing instructions until overridden.\n\n'

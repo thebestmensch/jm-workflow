@@ -1,8 +1,8 @@
-# jm-workflow
+# claude-code-multimodel-workflow
 
 JM's Claude Code workflow as a redistributable package — pre-built dispatch rules, project-aware reviewers, codified discipline patches, and the slash commands and agents that hold it all together.
 
-> **Status:** v0.1.0 — first tagged release. See [SPEC.md](./SPEC.md) for the full specification and roadmap.
+> **Status:** v0.2.0 — repo renamed from `jm-workflow` for OSS clarity. See [SPEC.md](./SPEC.md) for the full specification and roadmap.
 
 ## The workflow at a glance
 
@@ -102,10 +102,10 @@ If you skip the opt-in tiers, you'll see the workflow patterns + project-aware r
 
 ```bash
 # Add the marketplace
-claude plugin marketplace add thebestmensch/jm-workflow
+claude plugin marketplace add thebestmensch/claude-code-multimodel-workflow
 
 # Install the plugin
-claude plugin install jm-workflow
+claude plugin install claude-code-multimodel-workflow
 ```
 
 That's it for the plugin layer. The host-side install scripts (`install.sh`, `doctor.sh`, shell wrappers) referenced in [SPEC.md](./SPEC.md) are deferred to a later release — set up the opt-in tiers manually for now.
@@ -121,7 +121,7 @@ That's it for the plugin layer. The host-side install scripts (`install.sh`, `do
 
 ```bash
 # Plugin updates (commands, agents, hooks, rules)
-claude plugin update jm-workflow
+claude plugin update claude-code-multimodel-workflow
 ```
 
 ---

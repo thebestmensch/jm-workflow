@@ -29,8 +29,8 @@ env:
   # Sibling repo (OWNER/REPO) + path to the mirror runbook.
   SIBLING_REPO: OWNER/REPO
   SIBLING_RUNBOOK: .claude/commands/REPLACE-linear-work-ticket.md
-  # Where jm-workflow is published (for the drift script).
-  JM_WORKFLOW_REPO: OWNER/jm-workflow
+  # Where claude-code-multimodel-workflow is published (for the drift script).
+  JM_WORKFLOW_REPO: OWNER/claude-code-multimodel-workflow
   # Optional override (default 50 inside the script).
   DRIFT_THRESHOLD: '50'
   # Required so the drift script can normalize project tokens + ticket
@@ -57,17 +57,17 @@ jobs:
           # If sibling is private and in a different org, set a fine-scoped PAT:
           # token: ${{ secrets.SIBLING_REPO_TOKEN }}
 
-      - name: Checkout jm-workflow (for the drift script)
+      - name: Checkout claude-code-multimodel-workflow (for the drift script)
         uses: actions/checkout@v4
         with:
           repository: ${{ env.JM_WORKFLOW_REPO }}
-          path: jm-workflow
+          path: claude-code-multimodel-workflow
 
       - name: Run drift check
         id: drift
         run: |
           set -o pipefail
-          SCRIPT=jm-workflow/plugin/tools/check-runbook-drift.sh
+          SCRIPT=claude-code-multimodel-workflow/plugin/tools/check-runbook-drift.sh
           chmod +x "$SCRIPT"
           # Capture exit code without failing the step; we want to post a
           # comment with the count either way.

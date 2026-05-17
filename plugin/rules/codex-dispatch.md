@@ -1,8 +1,8 @@
 # Codex Dispatch — Cross-Provider Adversarial Review
 
-> **Optional integration.** This rule covers the `openai-codex` Claude Code plugin (`claude plugin install codex@openai-codex`) plus the gate hooks shipped by jm-workflow.
+> **Optional integration.** This rule covers the `openai-codex` Claude Code plugin (`claude plugin install codex@openai-codex`) plus the gate hooks shipped by claude-code-multimodel-workflow.
 >
-> **Without the openai-codex plugin installed**, the `/codex:*` slash commands and the `codex:codex-rescue` subagent are unavailable. The `codex-stop-gate` / `codex-pre-commit-gate` / `codex-adversarial-cap` hooks shipped by jm-workflow **fail closed by design**: once you edit code, they emit a blocking message at commit/stop time and require either (a) installing + authenticating Codex CLI, or (b) writing a bypass reason to `/tmp/cc-gates/$SESSION_ID/skip_codex_gate`, or (c) opting into auditable degraded behavior with `CODEX_GATE_FAIL_OPEN=1` in the container/host env.
+> **Without the openai-codex plugin installed**, the `/codex:*` slash commands and the `codex:codex-rescue` subagent are unavailable. The `codex-stop-gate` / `codex-pre-commit-gate` / `codex-adversarial-cap` hooks shipped by claude-code-multimodel-workflow **fail closed by design**: once you edit code, they emit a blocking message at commit/stop time and require either (a) installing + authenticating Codex CLI, or (b) writing a bypass reason to `/tmp/cc-gates/$SESSION_ID/skip_codex_gate`, or (c) opting into auditable degraded behavior with `CODEX_GATE_FAIL_OPEN=1` in the container/host env.
 >
 > If you don't intend to use Codex review, the supported path is to disable the `codex-*-gate` hooks in your local `settings.json` overrides — not to skip the rule and let the gate block silently.
 
@@ -67,15 +67,15 @@ Two invocation paths, both model-callable (the `/codex:*` slash commands have `d
 This plugin ships a wrapper at `plugin/tools/codex-dispatch.sh` that bakes in pre-flight git hygiene (gaps #5 + #6) and hang-bail polling (gap #7) so the operator stops carrying those gaps in their head:
 
 ```bash
-$HOME/.claude/plugins/cache/jm-workflow/*/plugin/tools/codex-dispatch.sh adversarial-review        # blocks until result, auto hang-bail at 4.5 min silent log
-$HOME/.claude/plugins/cache/jm-workflow/*/plugin/tools/codex-dispatch.sh review                    # downgrade
-$HOME/.claude/plugins/cache/jm-workflow/*/plugin/tools/codex-dispatch.sh --no-wait adversarial-review  # background only
-$HOME/.claude/plugins/cache/jm-workflow/*/plugin/tools/codex-dispatch.sh status                    # passthrough
-$HOME/.claude/plugins/cache/jm-workflow/*/plugin/tools/codex-dispatch.sh result                    # passthrough
-$HOME/.claude/plugins/cache/jm-workflow/*/plugin/tools/codex-dispatch.sh cancel <job-id>           # passthrough
+$HOME/.claude/plugins/cache/claude-code-multimodel-workflow/*/plugin/tools/codex-dispatch.sh adversarial-review        # blocks until result, auto hang-bail at 4.5 min silent log
+$HOME/.claude/plugins/cache/claude-code-multimodel-workflow/*/plugin/tools/codex-dispatch.sh review                    # downgrade
+$HOME/.claude/plugins/cache/claude-code-multimodel-workflow/*/plugin/tools/codex-dispatch.sh --no-wait adversarial-review  # background only
+$HOME/.claude/plugins/cache/claude-code-multimodel-workflow/*/plugin/tools/codex-dispatch.sh status                    # passthrough
+$HOME/.claude/plugins/cache/claude-code-multimodel-workflow/*/plugin/tools/codex-dispatch.sh result                    # passthrough
+$HOME/.claude/plugins/cache/claude-code-multimodel-workflow/*/plugin/tools/codex-dispatch.sh cancel <job-id>           # passthrough
 ```
 
-Tip: the unquoted `cache/jm-workflow/*/` glob expands to the installed plugin version. Operators who want a shorter alias can `ln -s` the resolved path to `~/.claude/codex-dispatch.sh`.
+Tip: the unquoted `cache/claude-code-multimodel-workflow/*/` glob expands to the installed plugin version. Operators who want a shorter alias can `ln -s` the resolved path to `~/.claude/codex-dispatch.sh`.
 
 Exit codes: 0 review completed (result printed), 2 pre-flight failure, 3 hang-bail fired (write bypass with completed-review evidence per the suggested template the script emits).
 

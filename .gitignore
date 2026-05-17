@@ -9,7 +9,7 @@ Thumbs.db
 *.swo
 
 # Local install state (teammate-specific)
-.jm-workflow-install.conf
+.claude-code-multimodel-workflow-install.conf
 install.conf
 
 # Scratch
