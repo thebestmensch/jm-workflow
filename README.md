@@ -71,7 +71,7 @@ flowchart TD
 | Shape | Color | What it represents |
 |---|---|---|
 | rounded | blue `#1f6feb` | Intake / terminal node |
-| rounded, dashed | gray `#6e7681` | Outcome (not invoked) |
+| rounded, dashed | gray `#6e7681` | Terminal / outcome node |
 | parallelogram | purple `#a371f7` | `superpowers:*` skill — Claude invokes |
 | parallelogram | blue `#388bfd` | `/command` — JM types it |
 | parallelogram | cyan `#39c5d4` | `/command` — Claude auto-invokes |
