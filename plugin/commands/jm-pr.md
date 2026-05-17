@@ -44,7 +44,7 @@ Filter against the latest push SHA, anything CR posted before the current HEAD t
 
 ### 3. Triage each comment
 
-For every unresolved CR (or human) comment, decide one of three dispositions. Write the disposition inline before acting on it, don't silently fix everything.
+For every unresolved CR comment, decide one of three dispositions. Write the disposition inline before acting on it, don't silently fix everything. (Human comments escalate per § 8; don't triage them autonomously.)
 
 | Disposition | When | What to do |
 |---|---|---|
