@@ -1,4 +1,4 @@
-# jm-workflow — Package Specification
+# claude-code-multimodel-workflow — Package Specification
 
 Durable artifact capturing audit findings + decisions from the planning conversation.
 **Read this first** when picking up work on the package in a fresh session.
@@ -90,7 +90,7 @@ Path rewrite applied two places:
 
 **Don't ship:** `workspace-layout.md` (jm/oom tmux session names)
 
-**Loading mechanism:** CC's plugin loader does NOT auto-inject markdown from a `rules/` directory the way it does for `skills/` and `agents/`. To make rules active default behavior, jm-workflow ships a `SessionStart` hook (`plugin/hooks/inject-rules.sh`) declared in `plugin/.claude-plugin/plugin.json` that reads every `${CLAUDE_PLUGIN_ROOT}/rules/*.md` at session start and emits the concatenated content on stdout, which CC captures as additional system context. Pattern adapted from the `caveman` plugin's SessionStart activation hook. Discovered during Phase 2 implementation after Codex flagged that `plugin/rules/` is not a recognized plugin component path; verified against `https://code.claude.com/docs/en/plugins` (component table lists `.claude-plugin/`, `skills/`, `commands/`, `agents/`, `hooks/`, `.mcp.json`, `.lsp.json`, `monitors/`, `bin/`, `settings.json` — no `rules/`).
+**Loading mechanism:** CC's plugin loader does NOT auto-inject markdown from a `rules/` directory the way it does for `skills/` and `agents/`. To make rules active default behavior, claude-code-multimodel-workflow ships a `SessionStart` hook (`plugin/hooks/inject-rules.sh`) declared in `plugin/.claude-plugin/plugin.json` that reads every `${CLAUDE_PLUGIN_ROOT}/rules/*.md` at session start and emits the concatenated content on stdout, which CC captures as additional system context. Pattern adapted from the `caveman` plugin's SessionStart activation hook. Discovered during Phase 2 implementation after Codex flagged that `plugin/rules/` is not a recognized plugin component path; verified against `https://code.claude.com/docs/en/plugins` (component table lists `.claude-plugin/`, `skills/`, `commands/`, `agents/`, `hooks/`, `.mcp.json`, `.lsp.json`, `monitors/`, `bin/`, `settings.json` — no `rules/`).
 
 **Manifest path correction:** The initial Phase 1 skeleton placed the plugin manifest at `plugin/plugin.json`, but per the same docs the manifest must live at `plugin/.claude-plugin/plugin.json` (verified against the layouts of all installed plugins under `~/.claude/plugins/cache/`: caveman, code-simplifier, codex, oneonme-engineering). Phase 2 corrects this — without the move, neither the SessionStart hook nor any other plugin component is loaded.
 
@@ -152,7 +152,7 @@ JM's `~/.claude/CLAUDE.md` is ~75% transferable principles + ~25% personal wirin
 
 | Layer | Channel | Frequency |
 |---|---|---|
-| Plugin | `claude plugin update jm-workflow` | Whenever JM pushes to marketplace repo |
+| Plugin | `claude plugin update claude-code-multimodel-workflow` | Whenever JM pushes to marketplace repo |
 | Install | `git pull` for templates/docs | Tagged releases (semver) |
 | Personal | None (teammate's data) | Never |
 
@@ -162,7 +162,7 @@ JM's `~/.claude/CLAUDE.md` is ~75% transferable principles + ~25% personal wirin
 |---|---|---|
 | Codex CLI tier | Opt-in (not default) | 2026-05-12 |
 | Autonomous ticket agent | Excluded from package | 2026-05-12 |
-| Plugin name | `jm-workflow` | 2026-05-12 |
+| Plugin name | `claude-code-multimodel-workflow` | 2026-05-12 |
 | Force old CC version? | No — apply against current CC | 2026-05-12 |
 | Interactive install with secret capture? | Component selection yes, secret capture no | 2026-05-12 |
 | tweakcc prompt patches | Excluded from plugin scope (JM-203, 2026-05-16) | 2026-05-16 |
@@ -174,19 +174,19 @@ JM's `~/.claude/CLAUDE.md` is ~75% transferable principles + ~25% personal wirin
 
 ### Resolved during Phase 1
 
-- **Which subagent-prompt files does CC actually inject? (2026-05-12)** — Verified by inspecting the active session's system prompt at jm-workflow cwd. CC injects **both** `system-prompt-subagent-prompt-writing-examples.md` (the `<example>` blocks using `Agent({description, prompt, subagent_type})`) and `system-prompt-writing-subagent-prompts.md` (the prose "Writing the prompt" section with the smart-colleague metaphor). The sibling `system-prompt-subagent-delegation-examples.md` uses the `${AGENT_TOOL_NAME}({name: ...})` shape with deferred-notification pattern — that's the cloud Managed-Agents mode, NOT injected for standard CLI users. Implication for the patch catalog: target the two CLI-injected files; treat `subagent-delegation-examples.md` as out-of-scope for the standard-CLI tier.
+- **Which subagent-prompt files does CC actually inject? (2026-05-12)** — Verified by inspecting the active session's system prompt at claude-code-multimodel-workflow cwd. CC injects **both** `system-prompt-subagent-prompt-writing-examples.md` (the `<example>` blocks using `Agent({description, prompt, subagent_type})`) and `system-prompt-writing-subagent-prompts.md` (the prose "Writing the prompt" section with the smart-colleague metaphor). The sibling `system-prompt-subagent-delegation-examples.md` uses the `${AGENT_TOOL_NAME}({name: ...})` shape with deferred-notification pattern — that's the cloud Managed-Agents mode, NOT injected for standard CLI users. Implication for the patch catalog: target the two CLI-injected files; treat `subagent-delegation-examples.md` as out-of-scope for the standard-CLI tier.
 
 ## Resolved design decisions
 
 ### Adopter branch prefix (2026-05-12)
 
-**Human branches:** Configurable. Default = lowercase initials extracted from `git config user.name` (e.g. `James Mensch` → `jm/`). Install.sh prompts with detected default; user accepts or overrides; result written to `~/.jm-workflow/config.toml` under `[branches] human_prefix = "jm/"`.
+**Human branches:** Configurable. Default = lowercase initials extracted from `git config user.name` (e.g. `James Mensch` → `jm/`). Install.sh prompts with detected default; user accepts or overrides; result written to `~/.claude-code-multimodel-workflow/config.toml` under `[branches] human_prefix = "jm/"`.
 
 **Agent branches:** Hardcoded `agent/`. Matches both oneonme (`.claude/rules/agent-conventions.md`) and home-lab conventions; prefix separation enables PR-stream filtering + branch-protection rules per agent vs human work.
 
 **Config file shape:**
 ```toml
-# ~/.jm-workflow/config.toml
+# ~/.claude-code-multimodel-workflow/config.toml
 [branches]
 human_prefix = "jm/"        # set manually (install.sh deferred), override anytime
 agent_prefix = "agent/"     # do not change unless you also retune CI
@@ -246,9 +246,9 @@ Rationale: today's drift is ~80% identifier-swap noise + small true-fork. Option
 
 ### Phase 1 deliverables
 
-- `tools/check-runbook-drift.sh` in jm-workflow plugin — strips `oneonme|home-lab|OOM|JM|staging|main` + Linear URL slugs + command-name tokens, diffs stripped versions, exits non-zero if delta exceeds threshold
+- `tools/check-runbook-drift.sh` in claude-code-multimodel-workflow plugin — strips `oneonme|home-lab|OOM|JM|staging|main` + Linear URL slugs + command-name tokens, diffs stripped versions, exits non-zero if delta exceeds threshold
 - Pre-commit hook installation snippet for each adopter project (`.git/hooks/pre-commit` or pre-commit framework entry)
 - CI workflow stub (GitHub Actions) for adopters that run drift-test on PRs touching `*-linear-work-ticket.md`
 
-Phase 1 runs at jm-workflow cwd, not from oneonme or home-lab. Project-side wiring (pre-commit hook installation) runs separately at each project's cwd.
+Phase 1 runs at claude-code-multimodel-workflow cwd, not from oneonme or home-lab. Project-side wiring (pre-commit hook installation) runs separately at each project's cwd.
 

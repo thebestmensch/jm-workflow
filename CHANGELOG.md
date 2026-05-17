@@ -1,10 +1,23 @@
 # Changelog
 
-All notable changes to `jm-workflow` documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [SemVer](https://semver.org/).
+All notable changes to `claude-code-multimodel-workflow` documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
 (nothing yet)
+
+## [0.2.0] — 2026-05-16
+
+Renamed from `jm-workflow` → `claude-code-multimodel-workflow` for OSS clarity. The original name read as a JM-personal repo; the new name describes what the plugin actually does (route diffs through Claude + Codex + CodeRabbit with dispatch gates and bypass discipline).
+
+### Changed
+- GitHub repo renamed `thebestmensch/jm-workflow` → `thebestmensch/claude-code-multimodel-workflow` (stars/forks/issues preserved; old URL auto-redirects)
+- Plugin name (`marketplace.json` + `plugin.json`) renamed `jm-workflow` → `claude-code-multimodel-workflow`. **Breaking for adopters**: existing installs must `claude plugin marketplace remove jm-workflow && claude plugin marketplace add thebestmensch/claude-code-multimodel-workflow` then `claude plugin install claude-code-multimodel-workflow`
+- Config dir convention renamed `~/.jm-workflow/` → `~/.claude-code-multimodel-workflow/`; per-project `.jm-workflow-install.conf` → `.claude-code-multimodel-workflow-install.conf`
+- All in-repo path examples + adopter snippets (`pre-commit-runbook-drift.sh`, `runbook-drift.yml`, `pre-commit-config.snippet.yaml`) updated to reference the new name
+
+### Why "multimodel" and not "multimodal"
+"Multimodal" in AI parlance means input modalities (vision / audio / text). This plugin is **multi-model** — multiple models reviewing the same diff (Claude + Codex). Spelling matters; the term collision would mislead.
 
 ## [0.1.0] — 2026-05-16
 

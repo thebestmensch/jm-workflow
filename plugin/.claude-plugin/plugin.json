@@ -1,13 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/plugin.json",
-  "name": "jm-workflow",
-  "version": "0.1.0",
+  "name": "claude-code-multimodel-workflow",
+  "version": "0.2.0",
   "description": "JM's Claude Code workflow — pre-built dispatch rules, project-aware reviewers, codified discipline patches.",
   "author": {
     "name": "James Mensch",
     "url": "https://github.com/thebestmensch"
   },
-  "homepage": "https://github.com/thebestmensch/jm-workflow",
+  "homepage": "https://github.com/thebestmensch/claude-code-multimodel-workflow",
   "keywords": [
     "claude-code",
     "workflow",

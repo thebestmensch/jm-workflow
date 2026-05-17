@@ -19,7 +19,7 @@ set -o errexit -o nounset -o pipefail
 # --- Configure (edit these lines for your checkout) ---------------------
 RUNBOOK_A="${HOME}/Documents/local/<repo-a>/.claude/commands/<projA>-linear-work-ticket.md"
 RUNBOOK_B="${HOME}/Documents/local/<repo-b>/.claude/commands/<projB>-linear-work-ticket.md"
-DRIFT_SCRIPT="${HOME}/Documents/local/jm-workflow/plugin/tools/check-runbook-drift.sh"
+DRIFT_SCRIPT="${HOME}/Documents/local/claude-code-multimodel-workflow/plugin/tools/check-runbook-drift.sh"
 
 # Tell the drift tool which project tokens + ticket prefixes to collapse
 # before diffing (otherwise they appear as drift events).

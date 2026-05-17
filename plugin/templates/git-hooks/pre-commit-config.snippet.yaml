@@ -5,7 +5,7 @@
 # The hook runs check-runbook-drift only when a `*-linear-work-ticket.md`
 # file is staged. Edit args[1] / args[2] to point at the two runbooks you keep
 # in sync, and args[0] to the absolute path of the drift script in your
-# jm-workflow checkout.
+# claude-code-multimodel-workflow checkout.
 #
 # Mirror `*-linear-new-ticket.md` or `*-linear-status-ticket.md` too?
 # Duplicate this hook entry with a matching `files:` regex and that pair's
@@ -30,6 +30,6 @@
       files: '(^|/)[a-z0-9][a-z0-9-]*-linear-work-ticket\.md$'
       entry: bash -c 'RUNBOOK_PROJECT_NAMES="${RUNBOOK_PROJECT_NAMES:-projA,projB}" RUNBOOK_TICKET_PREFIXES="${RUNBOOK_TICKET_PREFIXES:-ABC,XYZ}" "$0" "$1" "$2"'
       args:
-        - /absolute/path/to/jm-workflow/plugin/tools/check-runbook-drift.sh
+        - /absolute/path/to/claude-code-multimodel-workflow/plugin/tools/check-runbook-drift.sh
         - /absolute/path/to/repo-a/.claude/commands/<projA>-linear-work-ticket.md
         - /absolute/path/to/repo-b/.claude/commands/<projB>-linear-work-ticket.md
