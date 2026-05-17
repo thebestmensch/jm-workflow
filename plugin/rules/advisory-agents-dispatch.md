@@ -8,7 +8,7 @@ When running brainstorming or writing-plans workflows, auto-dispatch advisory ag
 
 When a clarifying question reveals a topic needing deep investigation (existing tools, library comparisons, infrastructure fit), dispatch in background:
 
-```
+```text
 Agent(subagent_type="research-agent", run_in_background=true)
 ```
 

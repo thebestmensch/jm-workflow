@@ -17,7 +17,7 @@ The skills own evaluation criteria and the philosophy/voice-guide loading.
 ## When to trigger
 
 **Bug QA, every visual checkpoint:**
-- After a round of visual/styling changes renders
+- After a round of visual/styling changes render
 - After fixing issues from a prior QA pass
 
 **Polish / Accessibility / Tone, milestones only:**

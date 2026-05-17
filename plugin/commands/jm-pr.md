@@ -40,7 +40,7 @@ Before any fixes, enumerate everything blocking merge:
 - **Failing checks:** `gh pr checks <N>`: capture failing runs and follow their logs.
 - **Merge state:** if `mergeable == "CONFLICTING"`, attempt resolution autonomously when the strategy is obvious (lockfile regen, generated-file rebase, trivial textual conflicts where one side is clearly stale). Escalate (§ 8) when the conflict touches business logic, schema, or any file where both sides made independent semantic changes.
 
-Filter against the latest push SHA, anything CR posted before the current HEAD that's already addressed by a later commit can be skipped. CR's `resolved` flag on conversations is the authoritative "this is done" marker; respect it.
+Filter against the latest push SHA, anything CR posted before the current HEAD that's already addressed by a later commit can be skipped. Thread resolution state lives on GraphQL `PullRequestReviewThread.isResolved`, not the REST `/pulls/{N}/comments` payload; fetch it via `gh api graphql -f query='{ repository(...) { pullRequest(number: N) { reviewThreads(first: 100) { nodes { isResolved comments(first: 1) { nodes { path line } } } } } } }'` and skip threads where `isResolved == true`.
 
 ### 3. Triage each comment
 
