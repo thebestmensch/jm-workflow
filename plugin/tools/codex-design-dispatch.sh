@@ -29,8 +29,11 @@
 set -o errexit -o pipefail -o nounset
 
 COMPANION_ROOT="${HOME}/.claude/plugins/cache/openai-codex/codex"
-COMPANION=$(find "${COMPANION_ROOT}" -mindepth 3 -maxdepth 3 -type f -path "${COMPANION_ROOT}/*/scripts/codex-companion.mjs" 2>/dev/null | sort -V | tail -1 || true)
-[ -n "${COMPANION:-}" ] || { echo "ERROR: codex-companion.mjs not found at ${COMPANION_ROOT}/*/scripts/codex-companion.mjs" >&2; exit 2; }
+# Pick the newest companion version portably: numeric field sort orders multi-digit
+# versions correctly (1.0.10 after 1.0.9) on BSD/macOS without GNU-only `sort -V`.
+_ver=$(find "${COMPANION_ROOT}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sed "s#.*/##" | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | tail -1)
+COMPANION="${COMPANION_ROOT}/${_ver}/scripts/codex-companion.mjs"
+[ -n "${_ver:-}" ] && [ -f "${COMPANION}" ] || { echo "ERROR: codex-companion.mjs not found at ${COMPANION_ROOT}/*/scripts/codex-companion.mjs" >&2; exit 2; }
 
 # Passthrough subcommands (status/result/cancel) so callers don't need a second wrapper.
 case "${1:-}" in
